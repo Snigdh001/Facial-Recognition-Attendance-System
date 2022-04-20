@@ -55,6 +55,7 @@ class Train_model:
             img=Image.open(image).convert('L') #greyscale images
             imagenp=np.array(img,'uint8')
             id=int(os.path.split(image)[1].split('.')[1])
+            print(imagenp,id)
 
             Faces.append(imagenp)
             ids.append(id)

@@ -1,10 +1,10 @@
 from tkinter import*
 from tkinter import ttk
 from tkinter import messagebox
-from turtle import goto
 from PIL import Image, ImageTk
 import mysql.connector
 import cv2
+import traceback
 
 
 
@@ -263,7 +263,7 @@ class Student:
 
     #-------------------------Functions Declarations ------------------------#
     def add_data(self):
-        if self.var_dep.get()=="Select Department" or self.var_course.get()=="Select Course"or self.var_year.get()=="Select Year"or self.var_sem.get()=="Select Semester"or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" or self.var_radio1.get=="No":
+        if self.var_dep.get()=="Select Department" or self.var_course.get()=="Select Course"or self.var_year.get()=="Select Year"or self.var_sem.get()=="Select Semester"or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" :
             messagebox.showerror("Error","All Fields are required",parent=self.root)
         else :
             try :
@@ -287,6 +287,7 @@ class Student:
                                                         self.var_teacher.get(),
                                                         self.var_radio1.get(),
                 ))
+                #todo choose yes no data face added
                 conn.commit()
                 self.fetch_data()
                 conn.close()
@@ -309,7 +310,7 @@ class Student:
             
         
 
-    #---------------------get cursor-----------------------------
+    #---------------------get cursor---------------------------------------------
     def get_cursor(self,event=""):
         cursor_focus =self.student_table.focus()
         content = self.student_table.item(cursor_focus)
@@ -328,10 +329,10 @@ class Student:
         self.var_phone.set(data[11]),
         self.var_address.set(data[12]),
         self.var_teacher.set(data[13]),
-        self.var_radio1.set(data[14])
+        self.var_radio1.set(data[14]),
     #-------------------Update Function----------------#
     def update_data(self):
-        if self.var_dep.get()=="Select Department" or self.var_course.get()=="Select Course"or self.var_year.get()=="Select Year"or self.var_sem.get()=="Select Semester"or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" :
+        if self.var_dep.get()=="Select Department" or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" :
             messagebox.showerror("Error","All Fields are required",parent=self.root)
         else:
             try:
@@ -354,7 +355,7 @@ class Student:
                                                         self.var_address.get(),
                                                         self.var_teacher.get(),
                                                         self.var_radio1.get(),
-                                                        self.var_enroll.get(),
+                                                        self.var_enroll.get()==id+1,
                                                         
                     ) )
                 
@@ -412,42 +413,10 @@ class Student:
         self.var_radio1.set("")
     #-------------------Generate Data Set & take photo-------------------------
     def generate_dataset(self):
-
-        flag1=0
-        flag2=0
-
+        
         if self.var_dep.get()=="Select Department" or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" or self.var_radio1.get()=="No":
             messagebox.showerror("Error","All Fields are required")
         else:
-            try :
-                conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
-                my_cursor=conn.cursor()
-                my_cursor.execute("insert into Student values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                (
-                                                        self.var_dep.get(),
-                                                        self.var_course.get(),
-                                                        self.var_year.get(),
-                                                        self.var_sem.get(),
-                                                        self.var_id.get(),
-                                                        self.var_name.get(),
-                                                        self.var_div.get(),
-                                                        self.var_enroll.get(),
-                                                        self.var_gender.get(),
-                                                        self.var_dob.get(),
-                                                        self.var_email.get(),
-                                                        self.var_phone.get(),
-                                                        self.var_address.get(),
-                                                        self.var_teacher.get(),
-                                                        self.var_radio1.get(),
-                ))
-                conn.commit()
-                self.fetch_data()
-                self.reset_data()
-                conn.close()
-                flag=1
-                
-            except Exception as es:
-                pass
             try:
                 conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
                 my_cursor=conn.cursor()
@@ -455,7 +424,7 @@ class Student:
                 myresult=my_cursor.fetchall()
                 id=0
                 for x in myresult:
-                    id+=1
+                    id=id+1
                 my_cursor.execute("update student set Department=%s,Course=%s,Year=%s,Semester=%s,Student_ID=%s,Name=%s,Division=%s,Gender=%s,DOB=%s,Email=%s,Phone=%s,Address=%s,Teacher=%s,Photo_Sample=%s where Enrollment=%s",(
                                                         self.var_dep.get(),
                                                         self.var_course.get(),
@@ -471,14 +440,15 @@ class Student:
                                                         self.var_address.get(),
                                                         self.var_teacher.get(),
                                                         self.var_radio1.get(),
-                                                        self.var_enroll.get(),
+                                                        self.var_enroll.get()
                                             
-                                                        ) )  
+                                                        ))  
                 conn.commit()
-                self.fetch_data()
                 self.reset_data()
-                conn.close()
+                self.fetch_data()
                 
+                conn.close()
+
                 #--------------Load pridefine data----------#
                 face_classifier = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
                 def face_cropped(img):
@@ -493,12 +463,18 @@ class Student:
                 cap=cv2.VideoCapture(0)
                 img_id=0
                 while TRUE:
+                    conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
+                    my_cursor=conn.cursor()
+                    my_cursor.execute("select Enrollment from student ")
+                    en=str(my_cursor.fetchone())[-9:-3]
+                    #print(en,type(en))
                     ret,my_frame=cap.read()
                     if face_cropped(my_frame) is not None:
                         img_id+=1
+
                         face=cv2.resize(face_cropped(my_frame),(400,400))
                         face=cv2.cvtColor(face,cv2.COLOR_BGR2GRAY)
-                        file_name_path="Data/user."+str(id)+"."+str(img_id)+".jpg"
+                        file_name_path="Data/user."+en+"."+str(img_id)+".jpg"
                         cv2.imwrite(file_name_path,face)
                         cv2.putText(face,str(img_id),(50,50),cv2.FONT_HERSHEY_COMPLEX,2,(254,254,254),2)
                         cv2.imshow("Cropped Face",face)
@@ -508,11 +484,9 @@ class Student:
                 cap.release()
                 cv2.destroyAllWindows()
                 messagebox.showinfo("Result","Generating Data set Completed!!!!!",parent=self.root)
-                if flag1==1:
-                    messagebox.showinfo("Success","Student Details Successfully Added",parent=self.root)
-
 
             except Exception as es:
+                traceback.print_exc(es)
                 messagebox.showerror("Error",f"Due to str({es})",parent=self.root)
 
 

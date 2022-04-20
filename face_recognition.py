@@ -47,7 +47,6 @@ class Face_Recognition:
 
         #-----------Face recognition----------
     def face_recog(self):
-
         def draw_boundray(img,classifier,scaleFactor,minNeighbors,color,text,clf):
             gray_image=cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
             features=classifier.detectMultiScale(gray_image,scaleFactor,minNeighbors)
@@ -55,45 +54,41 @@ class Face_Recognition:
             cordi=[]
 
             for (x,y,w,h) in features:
-                cv2.rectangle(img,(x,y),(x+w+10,y+h+10),(0,255,0),3)
+                cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),3)
                 id,predict=clf.predict(gray_image[y:y+h,x:x+w])
                 confidence=int((100*(1-predict/300)))
-                print(clf.predict(gray_image[y:y+h,x:x+w]))
 
                 conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
                 my_cursor=conn.cursor()
+                print(id,type(id))
+                my_cursor.execute("select Name from student where Enrollment like '%{}'".format(id))    
+                N=my_cursor.fetchone()
+                N="+".join(N)
 
-                try:
-                    my_cursor.execute("select Name from student where Student_ID="+str(id))
-                    N=my_cursor.fetchone()
-                    N="+".join(N)
 
-                    my_cursor.execute("select Department from student where Student_ID="+str(id))
-                    D=my_cursor.fetchone()
-                    D="+".join(D)
+                my_cursor.execute("select Department from student where Enrollment like '%{}'".format(id))
+                D=my_cursor.fetchone()
+                D="+".join(D)
 
-                    my_cursor.execute("select Enrollment from student where Student_ID="+str(id))
-                    E=my_cursor.fetchone()
-                    E="+".join(E)
-
-                except Exception as es:
-                    messagebox.showerror("Error executing",f"Due to str: {es}",parent=self.root)
-                    video_cap.release() 
+                my_cursor.execute("select Enrollment from student where Enrollment like '%{}'".format(id))
+                E=my_cursor.fetchone()
+                E="+".join(E)
                     
-                if confidence>50:
-                    cv2.putText(img,f"Name:{N}",(x,y-75),cv2.FONT_HERSHEY_SIMPLEX,0.8,(0,255,0),2)
-                    cv2.putText(img,f"Department:{D}",(x,y-15),cv2.FONT_HERSHEY_SIMPLEX,0.8,(0,255,0),2)
-                    cv2.putText(img,f"Enrollment:{E}",(x,y-45),cv2.FONT_HERSHEY_SIMPLEX,0.8,(0,255,0),2)
+                if confidence>70:
+                    cv2.putText(img,f"Name:{N}",(x,y-75),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
+                    cv2.putText(img,f"Department:{D}",(x,y-15),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
+                    cv2.putText(img,f"Enrollment:{E}",(x,y-45),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
                     self.mark_attendance(N,D,E)
                 else :
-                    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-                    cv2.putText(img,"Unknown Face",(x,y-10),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,0,0),2)
-                cordi=[x,y,w,y]
+                    cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),3)
+                    cv2.putText(img,"Unknown Face",(x,y-10),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
+                
+                cordi=[x,y,w,h]
 
             return cordi
         
-        def recognition(img,clf,faceCascade):
-            cordi=draw_boundray(img,faceCascade,1.1,10,(255,255,255),"Face",clf)
+        def recognize(img,clf,faceCascade):
+            cordi=draw_boundray(img,faceCascade,1.3,5,(255,255,255),"Face",clf)
             return img
         
         faceCascade=cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
@@ -104,7 +99,7 @@ class Face_Recognition:
 
         while True:
             ret,img=video_cap.read()
-            img=recognition(img,clf,faceCascade)
+            img=recognize(img,clf,faceCascade)
             cv2.imshow("Welcome To Face Recognition",img)
             
             if cv2.waitKey(1)==13:
