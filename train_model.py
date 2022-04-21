@@ -55,7 +55,7 @@ class Train_model:
             img=Image.open(image).convert('L') #greyscale images
             imagenp=np.array(img,'uint8')
             id=int(os.path.split(image)[1].split('.')[1])
-            print(imagenp,id)
+            #print(imagenp,id)
 
             Faces.append(imagenp)
             ids.append(id)
@@ -63,12 +63,13 @@ class Train_model:
             cv2.waitKey(1)==13
         ids=np.array(ids)
 
-        #----------------Train the Classifier and Save---------------
+        #----------------Train the Classifier and Save------------------------------
         clf=cv2.face.LBPHFaceRecognizer_create()
         clf.train(Faces,ids)
         clf.write("classifier.xml")
         cv2.destroyAllWindows()
-        messagebox.showinfo("Result","Training Model with DataSet is Completed ")
+        messagebox.showinfo("Result","Training Model with DataSet is Completed ",parent=self.
+        root)
 
 
 

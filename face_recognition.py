@@ -60,7 +60,7 @@ class Face_Recognition:
 
                 conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
                 my_cursor=conn.cursor()
-                print(id,type(id))
+                #print(id,type(id))
                 my_cursor.execute("select Name from student where Enrollment like '%{}'".format(id))    
                 N=my_cursor.fetchone()
                 N="+".join(N)

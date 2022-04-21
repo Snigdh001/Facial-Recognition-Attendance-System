@@ -415,7 +415,8 @@ class Student:
     def generate_dataset(self):
         
         if self.var_dep.get()=="Select Department" or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" or self.var_radio1.get()=="No":
-            messagebox.showerror("Error","All Fields are required")
+            messagebox.showerror("Error","All Fields are required",parent=self.
+        root)
         else:
             try:
                 conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
@@ -444,7 +445,7 @@ class Student:
                                             
                                                         ))  
                 conn.commit()
-                self.reset_data()
+                #self.reset_data()
                 self.fetch_data()
                 
                 conn.close()
@@ -465,9 +466,10 @@ class Student:
                 while TRUE:
                     conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
                     my_cursor=conn.cursor()
-                    my_cursor.execute("select Enrollment from student ")
-                    en=str(my_cursor.fetchone())[-9:-3]
+                    my_cursor.execute("select Enrollment from student where Enrollment=%s ",(self.var_enroll.get(),))
+                    en=str(my_cursor.fetchone())[8:-3]
                     #print(en,type(en))
+                    #print(self.var_enroll.get(),)
                     ret,my_frame=cap.read()
                     if face_cropped(my_frame) is not None:
                         img_id+=1
@@ -486,7 +488,7 @@ class Student:
                 messagebox.showinfo("Result","Generating Data set Completed!!!!!",parent=self.root)
 
             except Exception as es:
-                traceback.print_exc(es)
+                #traceback.print_exc(es)
                 messagebox.showerror("Error",f"Due to str({es})",parent=self.root)
 
 
