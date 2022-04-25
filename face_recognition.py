@@ -74,7 +74,7 @@ class Face_Recognition:
                 E=my_cursor.fetchone()
                 E="+".join(E)
                     
-                if confidence>70:
+                if confidence>80:
                     cv2.putText(img,f"Name:{N}",(x,y-75),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
                     cv2.putText(img,f"Department:{D}",(x,y-15),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
                     cv2.putText(img,f"Enrollment:{E}",(x,y-45),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)

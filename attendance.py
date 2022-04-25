@@ -63,13 +63,13 @@ class Attendance:
 
         #Attendance Enrollment
         Attendance_Enrollment=Label(Left_Inside_Frame,text='Enrollment',font=("arial",12,"bold"))
-        Attendance_Enrollment.grid(row=0,column=3,padx=10,pady=10,sticky=W)
+        Attendance_Enrollment.grid(row=1,column=0,padx=10,pady=10,sticky=W)
         Attendance_Enrollment_entry=ttk.Entry(Left_Inside_Frame,width=20,textvariable=self.var_enrollment,font=("arial",12,"bold"))
         Attendance_Enrollment_entry.grid(row=0,column=4,padx=10,pady=10,sticky=W)
 
         #Attendance Date
         Attendance_Date=Label(Left_Inside_Frame,text='Date',font=("arial",12,"bold"))
-        Attendance_Date.grid(row=1,column=0,padx=10,pady=10,sticky=W)
+        Attendance_Date.grid(row=2,column=0,padx=10,pady=10,sticky=W)
         Attendance_Date_entry=ttk.Entry(Left_Inside_Frame,width=20,textvariable=self.var_date,font=("arial",12,"bold"))
         Attendance_Date_entry.grid(row=1,column=1,padx=10,pady=10,sticky=W)
 
@@ -80,8 +80,8 @@ class Attendance:
         Attendance_Time_entry.grid(row=1,column=4,padx=10,pady=10,sticky=W)
 
         #Department
-        Attendance_Department=Label(Left_Inside_Frame,text='Time:',font=("arial",12,"bold"))
-        Attendance_Department.grid(row=2,column=0,padx=10,pady=10,sticky=W)
+        Attendance_Department=Label(Left_Inside_Frame,text='Department:',font=("arial",12,"bold"))
+        Attendance_Department.grid(row=0,column=3,padx=10,pady=10,sticky=W)
         Attendance_Department_entry=ttk.Entry(Left_Inside_Frame,width=20,textvariable=self.var_dep,font=("arial",12,"bold"))
         Attendance_Department_entry.grid(row=2,column=1,padx=10,pady=10,sticky=W)
 
@@ -125,7 +125,7 @@ class Attendance:
         # ----------Scroll Bar Table ----------
         scroll_x=ttk.Scrollbar(table_frame,orient=HORIZONTAL)
         scroll_y=ttk.Scrollbar(table_frame,orient=VERTICAL)
-        self.AttendanceReportTable=ttk.Treeview(table_frame,column=("name","enrollment","date","time","dep","status"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)
+        self.AttendanceReportTable=ttk.Treeview(table_frame,column=("name","dep","enrollment","time","date","status"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)
 
         scroll_x.pack(side=BOTTOM,fill=X)
         scroll_y.pack(side=RIGHT,fill=Y)
@@ -134,18 +134,18 @@ class Attendance:
         scroll_y.config(command=self.AttendanceReportTable.yview)
 
         self.AttendanceReportTable.heading("name",text="Name")
-        self.AttendanceReportTable.heading("enrollment",text="Enrollment")
-        self.AttendanceReportTable.heading("date",text="Date")
-        self.AttendanceReportTable.heading("time",text="Time")
         self.AttendanceReportTable.heading("dep",text="Department")
+        self.AttendanceReportTable.heading("enrollment",text="Enrollment")
+        self.AttendanceReportTable.heading("time",text="Time")
+        self.AttendanceReportTable.heading("date",text="Date")
         self.AttendanceReportTable.heading("status",text="Status")
 
         self.AttendanceReportTable["show"]="headings"
         self.AttendanceReportTable.column("name",width=100)
-        self.AttendanceReportTable.column("enrollment",width=100)
-        self.AttendanceReportTable.column("date",width=100)
-        self.AttendanceReportTable.column("time",width=100)
         self.AttendanceReportTable.column("dep",width=100)
+        self.AttendanceReportTable.column("enrollment",width=100)
+        self.AttendanceReportTable.column("time",width=100)
+        self.AttendanceReportTable.column("date",width=100)
         self.AttendanceReportTable.column("status",width=100)
 
         self.AttendanceReportTable.pack(fill=BOTH,expand=1)

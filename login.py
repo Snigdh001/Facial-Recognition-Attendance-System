@@ -128,7 +128,8 @@ class Login_window:
 
     def forgot_password_window(self):
         if self.txtuser.get()=="":
-            messagebox.showerror("Error","Please Enter Email Id for reset password")
+            messagebox.showerror("Error","Please Enter Email Id for reset password",parent=self.
+        root)
         else :
             conn=mysql.connector.connect(host="localhost",user="root",password="snigdh",database="face_recognition")
             my_cursor=conn.cursor()
@@ -137,7 +138,8 @@ class Login_window:
             my_cursor.execute(query,value)
             row=my_cursor.fetchone()
             if row==None:
-                messagebox.showerror("Error","Please enter the valid username")
+                messagebox.showerror("Error","Please enter the valid username",parent=self.
+        root)
             else :
                 conn.close()
                 self.root2=Toplevel()
