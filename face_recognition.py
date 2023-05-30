@@ -18,7 +18,7 @@ class Face_Recognition:
         self.root.title("Face Recognition Attendance System")
 
         #image bg 
-        bg=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\bg.jpg")
+        bg=Image.open(r"images\bg.jpg")
         bg=bg.resize((1920,1080),Image.ANTIALIAS)
         self.photoimgbg = ImageTk.PhotoImage(bg)
 
@@ -45,18 +45,19 @@ class Face_Recognition:
             else :
                 pass
 
+
         #-----------Face recognition----------
     def face_recog(self):
         def draw_boundray(img,classifier,scaleFactor,minNeighbors,color,text,clf):
             gray_image=cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
             features=classifier.detectMultiScale(gray_image,scaleFactor,minNeighbors)
-            
-            cordi=[]
 
+            cordi=[]
+            
             for (x,y,w,h) in features:
                 cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),3)
                 id,predict=clf.predict(gray_image[y:y+h,x:x+w])
-                confidence=int((100*(1-predict/300)))
+                confidence=int((100*(1-predict/200)))
 
                 conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
                 my_cursor=conn.cursor()
@@ -73,8 +74,8 @@ class Face_Recognition:
                 my_cursor.execute("select Enrollment from student where Enrollment like '%{}'".format(id))
                 E=my_cursor.fetchone()
                 E="+".join(E)
-                    
-                if confidence>80:
+                print(confidence)
+                if confidence>=83:
                     cv2.putText(img,f"Name:{N}",(x,y-75),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
                     cv2.putText(img,f"Department:{D}",(x,y-15),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
                     cv2.putText(img,f"Enrollment:{E}",(x,y-45),cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)

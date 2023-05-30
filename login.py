@@ -21,7 +21,7 @@ class Login_window:
         self.root.title("Login")
         self.root.geometry("1920x1280+0+0")
 
-        bg=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Login\images\bg.jpg")
+        bg=Image.open(r"images\bg.jpg")
         bg=bg.resize((1920,1280),Image.ANTIALIAS)
 
         self.photoimgbg = ImageTk.PhotoImage(bg)
@@ -32,7 +32,7 @@ class Login_window:
         frame=Frame(self.root,bg="white")
         frame.place(x=790,y=170,width=340,height=450)
 
-        img1=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Login\images\login.jpg")
+        img1=Image.open(r"images\login.jpg")
         img1=img1.resize((340,130),Image.ANTIALIAS)
         self.photoimage1=ImageTk.PhotoImage(img1)
         lbimg1=Label(image=self.photoimage1,bg="black",borderwidth=0)
@@ -194,7 +194,7 @@ class Register:
         self.var_confirm_password=StringVar()
         self.var_check=IntVar()
 
-        bg=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Login\images\bg.jpg")
+        bg=Image.open(r"images\bg.jpg")
         bg=bg.resize((1920,1280),Image.ANTIALIAS)
 
         self.photoimgbg = ImageTk.PhotoImage(bg)
@@ -258,7 +258,7 @@ class Register:
         checkbtn.place(x=40,y=400)
 
         #--------------Button--------------------------------
-        img=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Login\images\register.jpg")
+        img=Image.open(r"images\register.jpg")
         img=img.resize((250,60),Image.ANTIALIAS)
         self.photoimage=ImageTk.PhotoImage(img)
         b1=Button(frame,image=self.photoimage,command=self.register_data,borderwidth=0,cursor="hand2")

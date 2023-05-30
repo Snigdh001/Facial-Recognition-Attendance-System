@@ -15,7 +15,7 @@ class Train_model:
         self.root.title("Face Recognition Attendance System")
 
         #image bg 
-        bg=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\bg.jpg")
+        bg=Image.open(r"images\bg.jpg")
         bg=bg.resize((1920,1080),Image.ANTIALIAS)
         self.photoimgbg = ImageTk.PhotoImage(bg)
 
@@ -25,7 +25,7 @@ class Train_model:
         title_lb=Label(self.root,text="Train Model",font=("Arial",30,"bold"),bg="white",fg="black")
         title_lb.place(x=25,y=25,width=1870,height=45)
 
-        img1=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\training model.jpg")
+        img1=Image.open(r"images\training model.jpg")
         img1=img1.resize((960,300),Image.ANTIALIAS)
         self.photoimg1 = ImageTk.PhotoImage(img1)
         
@@ -33,7 +33,7 @@ class Train_model:
         f1_lb.place(x=25,y=70,width=1870,height=400)
 
         #Button
-        img7=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\7.jpg")
+        img7=Image.open(r"images\7.jpg")
         img7=img7.resize((250,250),Image.ANTIALIAS)
         self.photoimg7 = ImageTk.PhotoImage(img7)
 

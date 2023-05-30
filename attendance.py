@@ -31,7 +31,7 @@ class Attendance:
         self.var_status=StringVar()
 
         #image bg 
-        bg=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\bg.jpg")
+        bg=Image.open(r"images\bg.jpg")
         bg=bg.resize((1920,1080),Image.ANTIALIAS)
         self.photoimgbg = ImageTk.PhotoImage(bg)
 
@@ -150,13 +150,21 @@ class Attendance:
 
         self.AttendanceReportTable.pack(fill=BOTH,expand=1)
         self.AttendanceReportTable.bind("<ButtonRelease>",self.get_cursor)
-
+        with open("List.csv","r+",newline="\n") as myfile:
+            csvread=csv.reader(myfile,delimiter=",")
+            mydata=[]
+            for i in csvread:
+                mydata.append(i)
+            self.fetchdata(mydata)
+        # self.importcsv()
+        # self.fetchdata(mydata)
     #--------------Fetch Data ------------------------------
 
     def fetchdata(self,rows):
         self.AttendanceReportTable.delete(*self.AttendanceReportTable.get_children())
         for i in rows:
-            self.AttendanceReportTable.insert("",END,values=i)
+            if(i!=[]):
+                self.AttendanceReportTable.insert("",END,values=i)
 
     #import CSV
     def importcsv(self):
@@ -174,13 +182,13 @@ class Attendance:
         try:
             if len(mydata)<1:
                 messagebox.showerror("No Data","No Data Found",parent=self.root)
-            fln=filedialog.asksaveasfilename(initialdir=os.getcwd(),title="Open CSV",filetypes=(("CSV File","*.csv"),("All file","*.*")),parent=self.root)
-            with open(fln,mode="w",newline="") as myfile:
+            fln=filedialog.asksaveasfilename(initialdir=os.getcwd(),title="Save CSV",filetypes=(("CSV File","*.csv"),("All file","*.*")),parent=self.root)
+            with open(fln,mode="w+",newline="") as myfile:
                 exp_write=csv.writer(myfile,delimiter=",")
                 for i in mydata:
-                    exp_write.writerow(i)
-                messagebox.showinfo("Data Export","Your data Exported to "+os.path.basename(fln)+" Successfully",parent=self.
-        root)
+                    if(i!=[]):
+                        exp_write.writerow(i)
+                messagebox.showinfo("Data Export","Your data Exported to "+os.path.basename(fln)+" Successfully",parent=self.root)
         except Exception as es:
             messagebox.showerror("Error",f"Due to : {str(es)}",parent=self.root)
 

@@ -21,14 +21,14 @@ class face_recognition_system:
 
 
         #image 1
-        img1=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\1.jpg")
+        img1=Image.open(r"images\1.jpg")
         img1=img1.resize((960,300),Image.ANTIALIAS)
         self.photoimg1 = ImageTk.PhotoImage(img1)
         f1_lb=Label(self.root,image=self.photoimg1)
         f1_lb.place(x=0,y=0,width=960,height=300)
 
         #image 2
-        img2=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\2.jpg")
+        img2=Image.open(r"images\2.jpg")
         img2=img2.resize((960,300),Image.ANTIALIAS)
         self.photoimg2 = ImageTk.PhotoImage(img2)
 
@@ -36,7 +36,7 @@ class face_recognition_system:
         f1_lb.place(x=960,y=0,width=960,height=300)
 
         #image bg 
-        bg=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\bg.jpg")
+        bg=Image.open(r"images\bg.jpg")
         bg=bg.resize((1920,980),Image.ANTIALIAS)
         self.photoimgbg = ImageTk.PhotoImage(bg)
 
@@ -59,7 +59,7 @@ class face_recognition_system:
         
 
         # STUDENT BUTTON
-        img3=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\3.jpg")
+        img3=Image.open(r"images\3.jpg")
         img3=img3.resize((180,180),Image.ANTIALIAS)
         self.photoimg3 = ImageTk.PhotoImage(img3)
         
@@ -70,7 +70,7 @@ class face_recognition_system:
         b1.place(x=170,y=280,width=180,height=40)
 
         #FACE DETECTOR
-        img4=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\4.jpg")
+        img4=Image.open(r"images\4.jpg")
         img4=img4.resize((180,180),Image.ANTIALIAS)
         self.photoimg4 = ImageTk.PhotoImage(img4)
 
@@ -81,7 +81,7 @@ class face_recognition_system:
         b1.place(x=450,y=280,width=180,height=40)
 
         #Student Face Data
-        img5=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\5.jpg")
+        img5=Image.open(r"images\5.jpg")
         img5=img5.resize((180,180),Image.ANTIALIAS)
         self.photoimg5 = ImageTk.PhotoImage(img5)
 
@@ -93,7 +93,7 @@ class face_recognition_system:
 
 
         #Attendance
-        img6=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\6.jpg")
+        img6=Image.open(r"images\6.jpg")
         img6=img6.resize((180,180),Image.ANTIALIAS)
         self.photoimg6 = ImageTk.PhotoImage(img6)
 
@@ -104,7 +104,7 @@ class face_recognition_system:
         b1.place(x=1010,y=280,width=180,height=40)
 
         #TRAIN MACHINE
-        img7=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\7.jpg")
+        img7=Image.open(r"images\7.jpg")
         img7=img7.resize((180,180),Image.ANTIALIAS)
         self.photoimg7 = ImageTk.PhotoImage(img7)
 
@@ -115,7 +115,7 @@ class face_recognition_system:
         b1.place(x=1290,y=280,width=180,height=40)
 
         #QUIT
-        img8=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\8.jpg")
+        img8=Image.open(r"images\8.jpg")
         img8=img8.resize((180,180),Image.ANTIALIAS)
         self.photoimg8 = ImageTk.PhotoImage(img8)
 

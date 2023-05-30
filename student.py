@@ -195,7 +195,7 @@ class Student:
 
         #-------------------------------Image in Right columb---------------------------------#
         """
-        img1=Image.open(r"E:\SNIGDH\College\Sem 6\Minor\Face Recognition Attendance System\images\1.jpg")
+        img1=Image.open(r"images\1.jpg")
         img1=img1.resize((890,200),Image.ANTIALIAS)
         self.photoimg1 = ImageTk.PhotoImage(img1)
         
@@ -263,8 +263,10 @@ class Student:
 
     #-------------------------Functions Declarations ------------------------#
     def add_data(self):
-        if self.var_dep.get()=="Select Department" or self.var_course.get()=="Select Course"or self.var_year.get()=="Select Year"or self.var_sem.get()=="Select Semester"or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" :
-            messagebox.showerror("Error","All Fields are required",parent=self.root)
+        if (self.var_radio1.get()=="No"):
+             messagebox.showerror("Error","Please Take photo Sample",parent=self.root)
+        if self.var_dep.get()=="Select Department" or self.var_course.get()=="Select Course"or self.var_year.get()=="Select Year"or self.var_radio1.get()=="No" or self.var_sem.get()=="Select Semester"or self.var_name.get()==""or self.var_id.get()=="" or self.var_enroll.get()=="" :
+            messagebox.showerror("Error","All Fields are required",parent=self.root)            
         else :
             try :
                 conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
@@ -454,7 +456,7 @@ class Student:
                 face_classifier = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
                 def face_cropped(img):
                     gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-                    faces=face_classifier.detectMultiScale(img,1.1,10)
+                    faces=face_classifier.detectMultiScale(img,1.05,10)
                     #scaling factor= 1.3 for reducing size
                     # minimum neighbor=5 for better detection
                     for (x,y,w,h) in faces:
@@ -464,12 +466,9 @@ class Student:
                 cap=cv2.VideoCapture(0)
                 img_id=0
                 while TRUE:
-                    conn=mysql.connector.connect(host="localhost", user="root", password="snigdh", database="face_recognition")
-                    my_cursor=conn.cursor()
-                    my_cursor.execute("select Enrollment from student where Enrollment=%s ",(self.var_enroll.get(),))
-                    en=str(my_cursor.fetchone())[8:-3]
-                    #print(en,type(en))
-                    #print(self.var_enroll.get(),)
+                    
+                    en=self.var_enroll.get()[-6:]
+                    # print(en)
                     ret,my_frame=cap.read()
                     if face_cropped(my_frame) is not None:
                         img_id+=1
@@ -477,6 +476,7 @@ class Student:
                         face=cv2.resize(face_cropped(my_frame),(400,400))
                         face=cv2.cvtColor(face,cv2.COLOR_BGR2GRAY)
                         file_name_path="Data/user."+en+"."+str(img_id)+".jpg"
+                        # print(file_name_path)
                         cv2.imwrite(file_name_path,face)
                         cv2.putText(face,str(img_id),(50,50),cv2.FONT_HERSHEY_COMPLEX,2,(254,254,254),2)
                         cv2.imshow("Cropped Face",face)
